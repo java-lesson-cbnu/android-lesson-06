@@ -32,7 +32,7 @@ public class UserAuthEndpoint {
 
 
     @PostMapping("/register")
-    public void register(UserDataEntity entity) {
+    public void register(@ModelAttribute UserDataEntity entity) {
         // 유저 회원가입을 구현하십시오.
         // 해당 메서드를 작성하기 위해서는, UserDataService와 admin_dashboard.html을 참고하십시오.
         // 해당 메서드는 register.html에서 사용됩니다.
