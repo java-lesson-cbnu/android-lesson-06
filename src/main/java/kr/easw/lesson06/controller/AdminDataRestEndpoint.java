@@ -27,7 +27,6 @@ public class AdminDataRestEndpoint {
             textDataService.addText(new TextDataDto(0L, data.get("text")));
         else if (body.containsKey("text"))
             textDataService.addText(new TextDataDto(0L, body.get("text")));
-
         return new ModelAndView("redirect:/admin?success=true");
     }
 

@@ -31,6 +31,11 @@ public class BaseWebController {
         return new ModelAndView("admin_dashboard.html");
     }
 
+    @RequestMapping("/management")
+    public ModelAndView onManagementDashboard() {
+        return new ModelAndView("management.html");
+    }
+
     // 이 메서드의 엔드포인트를 /server-error로 설정합니다.
     @RequestMapping("/server-error")
     public ModelAndView onErrorTest() {

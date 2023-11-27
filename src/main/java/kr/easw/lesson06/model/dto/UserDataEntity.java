@@ -18,7 +18,6 @@ public class UserDataEntity {
     @Getter
     private String userId;
 
-
     @Getter
     private String password;
 

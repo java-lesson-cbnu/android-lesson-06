@@ -1,0 +1,64 @@
+<html>
+    <body>
+        <h1> 유저 관리 페이지 <a href="/dashboard">(유저 대시보드로 이동)</a></h1>
+        <h3><a href="/admin"> 관리자 대시보드로 이동 </a></h3>
+        <ul id="userList">
+
+        </ul>
+    </body>
+    <script>
+        // 유저 삭제 요청 후, 트리거되는 콜백 함수입니다.
+        async function removeUser(userId, successCallback) {
+            // api/v1/user/remove로 POST 요청을 보냅니다.
+            await fetch('/api/v1/user/remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId
+                })
+            }).then(response => {
+                // 만약 응답이 200이라면,
+                if (response.status === 200) {
+                    // 콜백 함수를 실행합니다.
+                    successCallback();
+                }
+            });
+        }
+
+        // 페이지 로드 시, 비동기로 유저 목록을 불러옵니다.
+        (async () => {
+            // api/v1/rest/user/list로 GET 요청을 보냅니다.
+            const response = await fetch('/api/v1/rest/user/list');
+            // 응답을 JSON으로 파싱합니다.
+            const result = await response.json();
+            // 응답을 순회(iterate)하며, 유저 목록을 ul#userList에 삽입합니다.
+            for (let i = 0; i < result.length; i++) {
+                // li 엘리먼트를 생성합니다.
+                let li = document.createElement("li");
+                // li 엘리먼트에 유저 아이디를 삽입합니다.
+                li.appendChild(document.createTextNode(result[i]));
+                // li 엘리먼트에 삭제하기 버튼을 삽입합니다.
+                let contentRemoveButton = document.createElement("span");
+                // 삭제하기 버튼의 속성을 설정합니다.
+                // 무시해도 되나, 가독성을 위해 임시로 지정하였습니다.
+                contentRemoveButton.innerHTML = "&nbsp;&nbsp;삭제하기";
+                contentRemoveButton.style.color = "red";
+                contentRemoveButton.style.cursor = "pointer";
+                // 삭제하기 버튼을 클릭하면, removeUser 함수를 실행합니다.
+                contentRemoveButton.onclick = function () {
+                    removeUser(result[i], function () {
+                        // 콜백 함수에서는 페이지를 새로고침합니다.
+                        // 이는 추가적인 구현 없이 유저 목록을 새로 불러오는 것과 같습니다.
+                        window.location.reload();
+                    });
+                };
+                // li 엘리먼트에 삭제하기 버튼을 삽입합니다.
+                li.appendChild(contentRemoveButton);
+                // ul#userList에 li 엘리먼트를 삽입합니다.
+                document.getElementById("userList").appendChild(li);
+            }
+        })();
+    </script>
+</html>

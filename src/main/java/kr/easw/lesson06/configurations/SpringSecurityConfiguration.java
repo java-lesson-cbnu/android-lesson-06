@@ -40,12 +40,14 @@ public class SpringSecurityConfiguration {
                 .authorizeHttpRequests(registry -> {
                     // /dashboard 엔드포인트에 대해, 관리자와 게스트 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
                     registry.requestMatchers("/dashboard").hasAnyAuthority(Constants.AUTHORITY_ADMIN, Constants.AUTHORITY_GUEST)
-                            // /admin 엔드포인트에 대해, 관리자 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
-                            .requestMatchers("/admin").hasAnyAuthority(Constants.AUTHORITY_ADMIN)
+                            // /admin와 /management 엔드포인트에 대해, 관리자 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
+                            .requestMatchers("/admin", "/management").hasAnyAuthority(Constants.AUTHORITY_ADMIN)
                             // /api/v1/data/admin 엔드포인트에 대해, 관리자 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
                             .requestMatchers("/api/v1/data/admin/**").hasAnyAuthority(Constants.AUTHORITY_ADMIN)
                             // /api/v1/data 엔드포인트에 대해, 관리자와 게스트 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
                             .requestMatchers("/api/v1/data/**").hasAnyAuthority(Constants.AUTHORITY_ADMIN, Constants.AUTHORITY_GUEST)
+                            // /api/v1/data 엔드포인트에 대해, 관리자 권한을 가진 사용자만 접근할 수 있도록 설정합니다.
+                            .requestMatchers("/api/v1/user/**").hasAnyAuthority(Constants.AUTHORITY_ADMIN)
                             // /api/v1/auth 엔드포인트에 대해, 모든 사용자가 접근할 수 있도록 설정합니다.
                             .requestMatchers("/api/v1/auth/**").permitAll()
                             // 다른 모든 링크는 허용합니다.
